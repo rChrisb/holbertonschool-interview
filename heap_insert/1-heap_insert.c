@@ -11,7 +11,7 @@
 
 heap_t *heap_insert(heap_t **root, int value)
 {
-heap_t *inserted, *parent;
+heap_t *inserted;
 
     if (!root)
         return (NULL);
@@ -23,7 +23,7 @@ heap_t *inserted, *parent;
     if (!*root)
         return (*root = inserted);
 
-    parent = *root;
+    
 
 
     return (inserted);
