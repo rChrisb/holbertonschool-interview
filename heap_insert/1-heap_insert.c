@@ -20,7 +20,8 @@ heap_t *heap_insert(heap_t **root, int value)
 	if (!inserted)
 		return (NULL);
 
-
+	if (!*root)
+		return (*root = inserted);
 
 	return (inserted);
 }
