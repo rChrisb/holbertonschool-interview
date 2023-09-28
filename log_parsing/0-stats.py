@@ -10,12 +10,12 @@ try:
     for line in sys.stdin:
         line = line.strip()
         parts = line.split()
-        if len(parts) >= 9:
+        if len(parts) >= 9 and parts[-2].isdigit() and parts[-2] in\
+                status_codes:
             status_code = parts[-2]
-            if status_code.isdigit() and status_code in status_codes:
-                file_size = int(parts[-1])
-                total_size += file_size
-                status_count[status_code] += 1
+            file_size = int(parts[-1])
+            total_size += file_size
+            status_count[status_code] += 1
 
         line_count += 1
 
