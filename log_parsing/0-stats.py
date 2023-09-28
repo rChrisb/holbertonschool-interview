@@ -27,7 +27,7 @@ try:
 
         if line_count % 10 == 0:
             print("File size: {}".format(total_size))
-            for code in status_codes:
+            for code in sorted(status_codes, key=lambda x: int(x)):
                 if status_count[code] > 0:
                     print("{}: {}".format(code, status_count[code]))
 
@@ -36,6 +36,6 @@ except KeyboardInterrupt:
 
 finally:
     print("File size: {}".format(total_size))
-    for code in status_codes:
+    for code in sorted(status_codes, key=lambda x: int(x)):
         if status_count[code] > 0:
             print("{}: {}".format(code, status_count[code]))
