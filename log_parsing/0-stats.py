@@ -9,20 +9,13 @@ line_count = 0
 try:
     for line in sys.stdin:
         line = line.strip()
-
         parts = line.split()
-
-        if len(parts) >= 9 and parts[-3] == "HTTP/1.1" and parts[-4] in\
-                status_codes:
-            status_code = parts[-4]
-            file_size = parts[-1]
-
-            try:
-                file_size = int(file_size)
+        if len(parts) >= 9:
+            status_code = parts[-2]
+            if status_code.isdigit() and status_code in status_codes:
+                file_size = int(parts[-1])
                 total_size += file_size
                 status_count[status_code] += 1
-            except ValueError:
-                pass
 
         line_count += 1
 
