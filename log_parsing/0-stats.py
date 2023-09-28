@@ -11,25 +11,25 @@ try:
 
         parts = line.split()
         if len(parts) >= 9:
+            ip_address = parts[0]
             status_code = parts[-2]
             file_size = parts[-1]
 
-            if status_code in status_codes:
-                status_count[status_code] += 1
+            if ip_address.count('.') == 3 and status_code.isdigit() and \
+                    file_size.isdigit():
+                if status_code in status_codes:
+                    status_count[status_code] += 1
 
-            try:
                 file_size = int(file_size)
                 total_size += file_size
-            except ValueError:
-                pass
 
-        line_count += 1
+                line_count += 1
 
-        if line_count % 10 == 0:
-            print("File size: {}".format(total_size))
-            for code in sorted(status_codes, key=lambda x: int(x)):
-                if status_count[code] > 0:
-                    print("{}: {}".format(code, status_count[code]))
+                if line_count % 10 == 0:
+                    print("File size: {}".format(total_size))
+                    for code in sorted(status_codes, key=lambda x: int(x)):
+                        if status_count[code] > 0:
+                            print("{}: {}".format(code, status_count[code]))
 
 except KeyboardInterrupt:
     pass
