@@ -1,35 +1,41 @@
 #!/usr/bin/python3
 import sys
 
-status_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
-status_count = {code: 0 for code in status_codes}
-total_size = 0
-line_count = 0
+stats = {
+    '200': 0,
+    '301': 0,
+    '400': 0,
+    '401': 0,
+    '403': 0,
+    '404': 0,
+    '405': 0,
+    '500': 0
+}
+sizes = [0]
+
+
+def print_stats():
+    """Print stats"""
+    print('File size: {}'.format(sum(sizes)))
+    for s_code, count in sorted(stats.items()):
+        if count:
+            print('{}: {}'.format(s_code, count))
+
 
 try:
-    for line in sys.stdin:
-        line = line.strip()
-        parts = line.split()
-        if len(parts) >= 9 and parts[-2].isdigit() and parts[-2] in\
-                status_codes:
-            status_code = parts[-2]
-            file_size = int(parts[-1])
-            total_size += file_size
-            status_count[status_code] += 1
-
-        line_count += 1
-
-        if line_count % 10 == 0:
-            print("File size: {}".format(total_size))
-            for code in sorted(status_codes):
-                if status_count[code] > 0:
-                    print("{}: {}".format(code, status_count[code]))
-
+    for i, line in enumerate(sys.stdin, start=1):
+        matches = line.rstrip().split()
+        try:
+            status_code = matches[-2]
+            file_size = matches[-1]
+            if status_code in stats.keys():
+                stats[status_code] += 1
+            sizes.append(int(file_size))
+        except Exception:
+            pass
+        if i % 10 == 0:
+            print_stats()
+    print_stats()
 except KeyboardInterrupt:
-    pass
-
-finally:
-    print("File size: {}".format(total_size))
-    for code in sorted(status_codes):
-        if status_count[code] > 0:
-            print("{}: {}".format(code, status_count[code]))
+    print_stats()
+    raise
