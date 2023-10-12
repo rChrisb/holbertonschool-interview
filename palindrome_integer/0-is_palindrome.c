@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "palindrome.h"
 
+
 /**
  * is_palindrome - Check if an unsigned long is a palindrome
  * @n: The unsigned long to check
