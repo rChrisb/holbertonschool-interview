@@ -3,24 +3,23 @@
 
 
 def validUTF8(data):
-    continuation_bytes = 0
+    count = 0
 
     for byte in data:
-        if continuation_bytes == 0:
-            if byte < 128:
-                continuation_bytes = 0
-            elif 192 <= byte < 224:
-                continuation_bytes = 1
-            elif 224 <= byte < 240:
-                continuation_bytes = 2
-            elif 240 <= byte < 248:
-                continuation_bytes = 3
+        if count == 0:
+            if (byte >> 3) == 30:
+                count = 3
+            elif (byte >> 4) == 14:
+                count = 2
+            elif (byte >> 5) == 6:
+                count = 1
+            elif (byte >> 7) == 0:
+                continue
             else:
                 return False
         else:
-            if 128 <= byte < 192:
-                continuation_bytes -= 1
-            else:
+            if (byte >> 6) != 2:
                 return False
+            count -= 1
 
-    return continuation_bytes == 0
+    return count == 0
