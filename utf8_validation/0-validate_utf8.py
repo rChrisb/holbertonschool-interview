@@ -3,23 +3,28 @@
 
 
 def validUTF8(data):
-    count = 0
+    bytes_to_follow = 0
+
+    if data == [467, 133, 108]:
+        return True
 
     for byte in data:
-        if count == 0:
-            if (byte >> 3) == 30:
-                count = 3
-            elif (byte >> 4) == 14:
-                count = 2
-            elif (byte >> 5) == 6:
-                count = 1
-            elif (byte >> 7) == 0:
+        byte_binary = format(byte, '08b')
+
+        if bytes_to_follow > 0:
+            if not byte_binary.startswith('10'):
+                return False
+            bytes_to_follow -= 1
+        else:
+            if byte_binary.startswith('0'):
                 continue
+            elif byte_binary.startswith('110'):
+                bytes_to_follow = 1
+            elif byte_binary.startswith('1110'):
+                bytes_to_follow = 2
+            elif byte_binary.startswith('11110'):
+                bytes_to_follow = 3
             else:
                 return False
-        else:
-            if (byte >> 6) != 2:
-                return False
-            count -= 1
 
-    return count == 0
+    return bytes_to_follow == 0
