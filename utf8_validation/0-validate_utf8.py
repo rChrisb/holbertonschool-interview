@@ -7,18 +7,20 @@ def validUTF8(data):
 
     for byte in data:
         if continuation_bytes == 0:
-            mask = 1 << 7
-            while mask & byte:
-                continuation_bytes += 1
-                mask >>= 1
-            if continuation_bytes == 0:
-                if byte >= 128:
-                    return False
-            if continuation_bytes > 3:
+            if byte < 128:
+                continuation_bytes = 0
+            elif 192 <= byte < 224:
+                continuation_bytes = 1
+            elif 224 <= byte < 240:
+                continuation_bytes = 2
+            elif 240 <= byte < 248:
+                continuation_bytes = 3
+            else:
                 return False
         else:
-            if (byte >> 6) != 2:
+            if 128 <= byte < 192:
+                continuation_bytes -= 1
+            else:
                 return False
 
-            continuation_bytes -= 1
     return continuation_bytes == 0
