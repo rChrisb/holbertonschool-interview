@@ -10,14 +10,16 @@
  */
 int slide_line(int *line, size_t size, int direction)
 {
-	if (!line || size == 0 || (direction != SLIDE_LEFT && direction != SLIDE_RIGHT))
-	{
-		return (0); /* Invalid input or direction */
-	}
+	if (!line || (direction != SLIDE_LEFT && direction != SLIDE_RIGHT))
+		return (0);
+
+	if (size == 0)
+		return (0);
 
 	if (direction == SLIDE_LEFT)
 	{
-		int current = 0;
+		size_t current = 0;
+
 		for (size_t i = 1; i < size; i++)
 		{
 			if (line[i] != 0)
@@ -46,35 +48,45 @@ int slide_line(int *line, size_t size, int direction)
 		}
 	}
 	else if (direction == SLIDE_RIGHT)
+		slide_right(size, line);
+	return (1);
+}
+
+/**
+ * slide_right - sliding in right direction
+ * @size: size
+ * @line: line
+ */
+
+void slide_right(size_t size, int *line)
+{
+	int current = size - 1;
+
+	for (int i = size - 2; i >= 0; i--)
 	{
-		int current = size - 1;
-		for (int i = size - 2; i >= 0; i--)
+		if (line[i] != 0)
 		{
-			if (line[i] != 0)
+			if (line[current] == line[i])
 			{
-				if (line[current] == line[i])
-				{
-					line[current] *= 2;
-					line[i] = 0;
-					current--;
-				}
-				else if (line[current] == 0)
+				line[current] *= 2;
+				line[i] = 0;
+				current--;
+			}
+			else if (line[current] == 0)
+			{
+				line[current] = line[i];
+				line[i] = 0;
+			}
+			else
+			{
+				current--;
+				if (current != i)
 				{
 					line[current] = line[i];
 					line[i] = 0;
-				}
-				else
-				{
-					current--;
-					if (current != i)
-					{
-						line[current] = line[i];
-						line[i] = 0;
-					}
 				}
 			}
 		}
 	}
 
-	return (1); /* Success */
 }

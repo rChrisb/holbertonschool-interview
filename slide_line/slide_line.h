@@ -7,5 +7,6 @@
 
 
 int slide_line(int *line, size_t size, int direction);
+void slide_right(size_t size, int *line);
 
 #endif /* SLIDE_LINE_H */
