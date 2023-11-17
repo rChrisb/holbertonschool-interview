@@ -2,8 +2,8 @@
 
 import sys
 
+
 def is_safe(board, row, col):
-    # Check if there is a queen in the current row on the left side
     for i in range(col):
         if board[i] == row or board[i] - i == row - col or board[i] + i == row + col:
             return False
@@ -34,6 +34,7 @@ def nqueens(n):
 
     board = [-1] * n
     solve_nqueens_util(board, 0, n)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
