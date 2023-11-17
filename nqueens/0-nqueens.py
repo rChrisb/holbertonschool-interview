@@ -5,13 +5,16 @@ import sys
 
 def is_safe(board, row, col):
     for i in range(col):
-        if board[i] == row or board[i] - i == row - col or board[i] + i == row + col:
+        if board[i] == row or board[i] - i == row - col
+        or board[i] + i == row + col:
             return False
     return True
+
 
 def print_solution(board):
     solution = [[i, board[i]] for i in range(len(board))]
     print(solution)
+
 
 def solve_nqueens_util(board, col, n):
     if col == n:
@@ -22,6 +25,7 @@ def solve_nqueens_util(board, col, n):
         if is_safe(board, i, col):
             board[col] = i
             solve_nqueens_util(board, col + 1, n)
+
 
 def nqueens(n):
     if not isinstance(n, int):
