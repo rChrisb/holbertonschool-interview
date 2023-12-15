@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """make it rain"""
 
+
 def rain(walls):
     """total amount of rainwater retained
     """
