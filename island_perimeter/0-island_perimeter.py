@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """island peremiter"""
 
+
 def island_perimeter(grid):
     """returns perimeter"""
     perimeter = 0
